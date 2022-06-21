@@ -2,6 +2,7 @@ import makeHeader from './heder-my-liberary';
 import initPagination from './pagination';
 import { getWatched } from './tmdb';
 import { initHome } from './trending.js';
+import filmCardsTpl from '../templates/films-cards.js';
 import { filmTitleDark } from './dark_theme';
 import { renderPage } from './my-liberary-render';
 
@@ -68,16 +69,16 @@ window.addEventListener('load', event => {
   if (!location.href.includes('mylibrary')) {
     pathname = location.pathname;
   }
+});
+
+window.addEventListener('beforeunload', event => {
   if (location.href.includes('mylibrary')) {
-    location.href.replace('mylibrary', '');
+    location = location.href.replace('mylibrary', '');
     onClickMyLibraryLink(event);
   }
 });
 
 window.addEventListener('popstate', e => {
-  console.log('pathname' + pathname);
-  console.log(location.pathname);
-  console.log(location);
   if (window.location.pathname === pathname) {
     onClickHomeLinkFromLibrary(e);
   } else if (window.location.pathname.includes('/mylibrary')) {
