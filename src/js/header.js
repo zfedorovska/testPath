@@ -46,7 +46,8 @@ function onClickHomeLinkFromLibrary(event) {
   refs.myLibraryLink.parentElement.classList.remove('nav__item--active');
   makeHeader('home');
   if (!(event.type === 'popstate')) {
-    window.history.pushState('object or string', 'Title', '/' + pathname);
+    let headerPath;
+    window.history.pushState('object or string', 'Title', pathname);
   }
   onClickHomeOfLink(event);
   refs.moviesList.classList.remove('films__list--library');
