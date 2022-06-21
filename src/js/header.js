@@ -20,44 +20,31 @@ refs.homeLink.addEventListener('click', e => e.preventDefault());
 refs.myLibraryLink.addEventListener('click', onClickMyLibraryLink);
 
 function onClickMyLibraryLink(event) {
-  refs.logoLink.addEventListener('click', onClickHomeLink);
-  refs.homeLink.addEventListener('click', onClickHomeLink);
+  refs.logoLink.addEventListener('click', onClickHomeLinkFromLibrary);
+  refs.homeLink.addEventListener('click', onClickHomeLinkFromLibrary);
   event.preventDefault();
   refs.homeLink.parentElement.classList.remove('nav__item--active');
   refs.myLibraryLink.parentElement.classList.add('nav__item--active');
   refs.switcher.classList.add('visually-hidden');
   makeHeader('library');
-
   window.history.pushState('object or string', 'Title', '/mylibrary');
   refs.moviesList.innerHTML = '';
   initPagination(getWatched, renderPage);
   if (getWatched().movies.length > 0) {
     document.querySelector('.removeBtn').classList.remove('visually-hidden');
   }
-
   refs.moviesList.classList.add('films__list--library');
-
   filmTitleDark();
   refs.logoLink.style.cursor = 'pointer';
 }
 
-function onClickHomeLink(event) {
+function onClickHomeLinkFromLibrary(event) {
   event.preventDefault();
   refs.homeLink.parentElement.classList.add('nav__item--active');
   refs.myLibraryLink.parentElement.classList.remove('nav__item--active');
-
   makeHeader('home');
-
   window.history.pushState('object or string', 'Title', '/');
-  refs.homeLink.removeEventListener('click', onClickHomeLink);
-  refs.logoLink.removeEventListener('click', onClickHomeLink);
-  refs.switcher.classList.remove('visually-hidden');
-  refs.moviesList.innerHTML = '';
-  document.querySelector('.search__input').value = '';
-  filmTitleDark();
-  initHome();
-  refs.logoLink.style.cursor = 'default';
-
+  onClickHomeOfLink();
   refs.moviesList.classList.remove('films__list--library');
 }
 
