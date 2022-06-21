@@ -6,7 +6,7 @@
   "homepage": "https://github.com/zfedorovska/testPath.git",
   "scripts": {
     "dev": "parcel src/*.html --open",
-    "build": "parcel build src/*.html --public-url /project7/"
+    "build": "parcel build src/*.html --public-url /testPath/"
   },
   "repository": {
     "type": "git",

@@ -27,7 +27,10 @@ function onClickMyLibraryLink(event) {
   refs.myLibraryLink.parentElement.classList.add('nav__item--active');
   refs.switcher.classList.add('visually-hidden');
   makeHeader('library');
-  window.history.pushState('object or string', 'Title', '/mylibrary');
+  if (!(event.type === 'popstate')) {
+    const libraryPath = pathname + '/mylibrary';
+    window.history.pushState('object or string', 'Title', libraryPath);
+  }
   refs.moviesList.innerHTML = '';
   initPagination(getWatched, renderPage);
   if (getWatched().movies.length > 0) {
@@ -39,12 +42,13 @@ function onClickMyLibraryLink(event) {
 }
 
 function onClickHomeLinkFromLibrary(event) {
-  event.preventDefault();
   refs.homeLink.parentElement.classList.add('nav__item--active');
   refs.myLibraryLink.parentElement.classList.remove('nav__item--active');
   makeHeader('home');
-  window.history.pushState('object or string', 'Title', '/');
-  onClickHomeOfLink();
+  if (!(event.type === 'popstate')) {
+    window.history.pushState('object or string', 'Title', '/');
+  }
+  onClickHomeOfLink(event);
   refs.moviesList.classList.remove('films__list--library');
 }
 
@@ -64,46 +68,19 @@ window.addEventListener('load', event => {
   if (!location.href.includes('mylibrary')) {
     pathname = location.pathname;
   }
-
   if (location.href.includes('mylibrary')) {
-    window.history.pushState('object or string', 'Title', pathname);
+    location.href = location.href.replace('mylibrary', '');
     onClickMyLibraryLink(event);
   }
 });
 
 window.addEventListener('popstate', e => {
+  console.log(pathname);
+  console.log(location.pathname);
   if (window.location.pathname === pathname) {
-    // console.log(pathname);
-    e.preventDefault();
-    refs.homeLink.parentElement.classList.add('nav__item--active');
-    refs.myLibraryLink.parentElement.classList.remove('nav__item--active');
-
-    makeHeader('home');
-
-    refs.homeLink.removeEventListener('click', onClickHomeLink);
-    refs.logoLink.removeEventListener('click', onClickHomeLink);
-    refs.switcher.classList.remove('visually-hidden');
-    refs.moviesList.innerHTML = '';
-    document.querySelector('.search__input').value = '';
-    filmTitleDark();
-    initHome();
-    refs.logoLink.style.cursor = 'default';
-    console.log('heder');
-  } else if (window.location.pathname === '/mylibrary') {
-    e.preventDefault();
-    refs.logoLink.addEventListener('click', onClickHomeLink);
-    refs.homeLink.addEventListener('click', onClickHomeLink);
-    refs.homeLink.parentElement.classList.remove('nav__item--active');
-    refs.myLibraryLink.parentElement.classList.add('nav__item--active');
-    refs.switcher.classList.add('visually-hidden');
-    makeHeader('library');
-
-    refs.moviesList.innerHTML = '';
-    initPagination(getWatched, renderPage);
-
-    filmTitleDark();
-    refs.logoLink.style.cursor = 'pointer';
-    console.log('library');
+    onClickHomeLinkFromLibrary(e);
+  } else if (window.location.pathname.includes('/mylibrary')) {
+    onClickMyLibraryLink(e);
   }
 });
 
