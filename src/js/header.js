@@ -28,7 +28,7 @@ function onClickMyLibraryLink(event) {
   refs.switcher.classList.add('visually-hidden');
   makeHeader('library');
   if (!(event.type === 'popstate')) {
-    const libraryPath = pathname + '/mylibrary';
+    const libraryPath = pathname + 'mylibrary';
     window.history.pushState('object or string', 'Title', libraryPath);
   }
   refs.moviesList.innerHTML = '';
@@ -46,7 +46,7 @@ function onClickHomeLinkFromLibrary(event) {
   refs.myLibraryLink.parentElement.classList.remove('nav__item--active');
   makeHeader('home');
   if (!(event.type === 'popstate')) {
-    window.history.pushState('object or string', 'Title', '/');
+    window.history.pushState('object or string', 'Title', '/' + pathname);
   }
   onClickHomeOfLink(event);
   refs.moviesList.classList.remove('films__list--library');
@@ -75,8 +75,9 @@ window.addEventListener('load', event => {
 });
 
 window.addEventListener('popstate', e => {
-  console.log(pathname);
+  console.log('pathname' + pathname);
   console.log(location.pathname);
+  console.log(location);
   if (window.location.pathname === pathname) {
     onClickHomeLinkFromLibrary(e);
   } else if (window.location.pathname.includes('/mylibrary')) {
