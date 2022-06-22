@@ -66,16 +66,23 @@ function onClickHomeOfLink(event) {
 }
 
 window.addEventListener('load', event => {
+  event.preventDefault();
   if (!location.href.includes('mylibrary')) {
     pathname = location.pathname;
+  }
+  if (location.href.includes('mylibrary')) {
+    let newLocation = location.href.replace('mylibrary', '');
+    location.replace(newLocation);
+    onClickMyLibraryLink(event);
   }
 });
 
 window.addEventListener('beforeunload', event => {
-  if (location.href.includes('mylibrary')) {
-    location = location.href.replace('mylibrary', '');
-    onClickMyLibraryLink(event);
-  }
+  // if (location.href.includes('mylibrary')) {
+  //   newLocation = location.href.replace('mylibrary', '');
+  //   location.replace = newLocation;
+  //   onClickMyLibraryLink(event);
+  // }
 });
 
 window.addEventListener('popstate', e => {
